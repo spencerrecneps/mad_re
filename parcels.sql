@@ -11,13 +11,14 @@ CREATE TABLE generated.parcels (
     value_imprvmnt INTEGER,
     value_total INTEGER,
     acres FLOAT,
+    sq_ft INTEGER,
     zone_id INTEGER
 );
 
 -- insert
 INSERT INTO generated.parcels (
     geom, parcel_id, address, use_category, use_specific, value_land,
-    value_imprvmnt, value_total, acres, zone_id
+    value_imprvmnt, value_total, acres, sq_ft, zone_id
 )
 SELECT  geom,
         parcel,
@@ -28,6 +29,7 @@ SELECT  geom,
         currentimp,
         currenttot,
         acres,
+        ST_Area(geom),
         (
             SELECT      z.id
             FROM        zoning_districts z
